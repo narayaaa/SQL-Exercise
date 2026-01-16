@@ -1,0 +1,62 @@
+1. SELECT * FROM mscategory
+WHERE
+CategoryName LIKE "%a%"
+
+2. SELECT CONCAT ("Mr. ", customerName), customerGender, customerAddress
+FROM mscustomer
+WHERE
+customerGender = "Male";
+
+3.SELECT MP.ProductName, MC.categoryName, CONCAT (" $ ", MP.ProductPrice) AS "ProductPrice"
+FROM msproduct AS MP
+JOIN
+mscategory AS MC
+ON 
+MC.categoryID = MP.CategoryID
+WHERE categoryName = "Dairy";
+
+4.SELECT productName, CONCAT ("Price : $ ",  ROUND  (productPrice * 0.5,2), " just for today!") AS "Price"
+FROM
+msproduct
+WHERE 
+productName LIKE "%Cheese";
+
+5. SELECT DISTINCT employeeName, employeeAddress
+FROM
+msemployee AS ME
+JOIN
+transactionheader AS TH
+ON
+ME.EmployeeID = TH.EmployeeID
+WHERE 
+MONTH (TH.TransactionDate) = 12;
+
+6. SELECT * FROM mscustomer ORDER BY (customerDOB) DESC
+
+7. SELECT DISTINCT MC.customerName, ME.employeeName, TH.transactionID, TH.transactionDate
+FROM mscustomer AS MC
+JOIN
+transactionheader AS TH
+ON
+MC.CustomerID = TH.CustomerID
+JOIN
+msemployee AS ME
+ON 
+TH.EmployeeID = ME.EmployeeID
+JOIN
+transactiondetail AS TD
+ON 
+TH.TransactionID = TD.TransactionID
+JOIN
+msproduct AS MP
+ON
+TD.ProductID = MP.ProductID
+JOIN 
+mscategory AS MCA
+ON
+MP.CategoryID = MCA.CategoryID
+WHERE
+ME.EmployeeGender = "Male" AND MCA.CategoryName  = "Meat"
+ORDER BY ( MC.CustomerName) ASC;
+
+8.

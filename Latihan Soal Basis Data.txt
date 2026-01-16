@@ -1,0 +1,72 @@
+CREATE DATABASE practicedb;
+
+LATIHAN SOAL
+1. SELECT * FROM msemployee
+WHERE EmployeeAddress LIKE "%Park%";
+
+2.SELECT CONCAT ("Customer : ", customerName) AS FormattedName
+FROM mscustomer
+WHERE customerEmail LIKE "%gov%"
+
+3. SELECT CONCAT (MP.productName, "-", MC.CategoryName) AS "Productinfo"
+FROM msproduct AS MP
+JOIN
+mscategory AS MC
+ON
+MP.CategoryID = MC.CategoryID
+WHERE
+MC.CategoryName LIKE "%Meat%";
+
+4. SELECT productName, CONCAT ( "Diskon :  $", ROUND (productPrice * 0.1,2)) AS "DiscountPrice"
+FROM msproduct
+WHERE
+productName LIKE "%Cheese%";
+
+5.SELECT DISTINCT
+MC.CustomerName
+FROM
+mscustomer AS MC
+JOIN 
+transactionheader AS TH
+ON
+MC.CustomerID = TH.CustomerID
+WHERE
+MONTH (TH.TransactionDate) = 11;
+
+6.SELECT * FROM msproduct ORDER BY productPrice ASC
+
+7. SELECT
+MP.productName,
+ME.employeeName,
+TH.transactionDate
+FROM
+transactionheader AS TH
+JOIN
+transactiondetail AS TD
+ON
+TH.TransactionID = TD.TransactionID
+JOIN
+msproduct AS MP
+ON
+TD.ProductID = MP.ProductID
+JOIN
+msemployee AS ME 
+ON
+TH.EmployeeID = ME.EmployeeID
+WHERE 
+TD.Quantity > 10 AND ME.EmployeeGender = "Male" 
+ORDER BY (TH.TransactionDate) DESC
+
+8. SELECT
+MP.productName,
+MP.productPrice
+FROM
+msproduct AS MP
+JOIN
+mscategory AS MC
+ON
+MP.CategoryID = MC.CategoryID
+WHERE
+MC.CategoryName = "Dairy"
+ORDER BY ( MP.ProductPrice) ASC
+LIMIT 1;

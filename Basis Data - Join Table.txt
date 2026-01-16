@@ -1,0 +1,82 @@
+1. SELECT 
+MC.CustomerID, 
+MC.CustomerName, 
+MC.CustomerGender,
+TH.EmployeeID
+FROM mscustomer AS MC
+JOIN 
+transactionheader AS TH ON
+MC.CustomerID = TH.CustomerID
+WHERE 
+MC.CustomerID = 'CU001';
+
+2. SELECT DISTINCT
+MC.CustomerID, 
+MC.CustomerName, 
+MC.CustomerGender,
+TH.EmployeeID
+FROM mscustomer AS MC
+JOIN 
+transactionheader AS TH
+ON
+MC.CustomerID = TH.CustomerID
+JOIN
+msemployee AS ME 
+ON 
+TH.EmployeeID = ME.EmployeeID
+WHERE 
+MC.CustomerID = 'CU001';
+
+3. SELECT 
+MC.CustomerID,
+MC.CustomerName,
+TH.TransactionDate,
+TH.EmployeeID,
+TD.ProductID,
+MP.ProductName,
+TD.Quantity
+FROM mscustomer AS MC
+JOIN
+transactionheader AS TH 
+ON
+MC.CustomerID = TH.CustomerID
+JOIN
+transactiondetail AS TD
+ON
+TH.TransactionID = TH.TransactionID
+JOIN
+msproduct AS MP
+ON
+TD.ProductID = MP.ProductID
+WHERE TH.TransactionDate = '2022-02-14' AND MC.CustomerID = 'CU001';
+
+4. SELECT 
+MC.CustomerID,
+MC.CustomerName,
+TH.TransactionDate,
+TH.EmployeeID,
+ME.EmployeeName,
+TD.ProductID,
+MP.ProductName,
+TD.Quantity
+FROM mscustomer AS MC
+JOIN
+transactionheader AS TH 
+ON
+MC.CustomerID = TH.CustomerID
+JOIN
+transactiondetail AS TD
+ON
+TH.TransactionID = TD.TransactionID
+JOIN
+msemployee AS ME
+ON
+TH.EmployeeID = ME.EmployeeID
+JOIN
+msproduct AS MP
+ON
+TD.ProductID = MP.ProductID
+WHERE TH.TransactionDate = '2022-02-14' AND MC.CustomerID = 'CU001';
+
+
+

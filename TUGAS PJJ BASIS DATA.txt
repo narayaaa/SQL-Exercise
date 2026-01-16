@@ -1,0 +1,128 @@
+
+1. CREATE DATABASE db_sekolah
+2. CREATE TABLE jurusan(
+    kode_jurusan VARCHAR(10) PRIMARY KEY,
+    Nama_jurusan VARCHAR(50),
+    Keterangan VARCHAR(50) );
+    
+CREATE TABLE siswa(
+    nis VARCHAR(10) PRIMARY KEY,
+    Nama_siswa VARCHAR(50),
+    Jenis_kelamin VARCHAR(50),
+    Tgl_lahir DATE,
+    Alamat VARCHAR(50),
+    kode_jurusan VARCHAR(10),
+    FOREIGN KEY (kode_jurusan) REFERENCES jurusan(kode_jurusan) );
+    
+CREATE TABLE guru(
+    nip VARCHAR(10) PRIMARY KEY,
+    Nama_guru VARCHAR(50),
+    Mapel_diajar VARCHAR(50) );
+    
+CREATE TABLE mata_pelajaran(
+    kode_mapel VARCHAR(10) PRIMARY KEY,
+    Nama_mapel VARCHAR(50),
+    Jumlah_jam INT,
+    kode_jurusan VARCHAR(10),
+    FOREIGN KEY (kode_jurusan) REFERENCES jurusan(kode_jurusan) );
+    
+CREATE TABLE nilai(
+    id_nilai VARCHAR(10) PRIMARY KEY,
+    nis VARCHAR(10),
+    kode_mapel VARCHAR(10),
+    nilai INT,
+    FOREIGN KEY (nis) REFERENCES siswa(nis),
+    FOREIGN KEY (kode_mapel) REFERENCES mata_pelajaran(kode_mapel) );
+    
+3. 
+INSERT INTO jurusan(kode_jurusan, Nama_jurusan, Keterangan)
+VALUES
+('RPL02', 'Rekayasa Perangkat Lunak', 'Mempelajari tentang  perancangan, pengembangan, pemeliharaan, dan manajemen kualitas perangkat lunak (software) seperti aplikasi web, aplikasi mobile, dan game'),
+('DKV03', 'Desain Komunikasi Visual', 'Mempelajari tentang pembuatan pesan visual yang efektif dan komunikatif melalui media visual seperti gambar, tulisan, dan video.');
+
+INSERT INTO siswa(nis, Nama_siswa, Jenis_kelamin, Tgl_lahir, Alamat, kode_jurusan)
+VALUES
+('LIN01', 'Linghe', 'Laki - laki', '1997-12-30', 'Jalan Mawar Indah No. 15', 'RPL02'), 
+('DYL02', 'Dylan', 'Laki - laki', '1998-12-20', 'Perumahan Griya Damai Blok C-8', 'RPL02'), 
+('YUT03', 'Yuta', 'Laki - laki', '1996-10-26', 'Komplek Puri Asri Blok A1 No. 5, Jalan Teratai', 'RPL02'), 
+('ZAI04', 'Zaizai', 'Perempuan', '1998-09-13', 'Dusun Mekar Jaya, RT 10/RW 04, Desa Sejahtera', 'DKV03'), 
+('BAI05', 'Bailu', 'Perempuan', '1994-09-23', 'Apartemen Seruni Tower B, Unit 25D', 'DKV03'), 
+('JIN06', 'Jinmai', 'Perempuan', '2002-09-29', 'Jalan Merpati Putih No. 20, RT 05/RW 09', 'DKV03');
+
+INSERT INTO guru(nip, Nama_guru, Mapel_diajar)
+VALUES
+("LIN11", "Linyi", "Basis Data"),
+("TEN12", "Tenlee", "Pemrograman Web"),
+("LEO13", "Leowu", "Fotografi"),
+("XUK14", "Xukai", "Desain Grafis");
+
+INSERT INTO mata_pelajaran(kode_mapel, Nama_mapel, Jumlah_jam,kode_jurusan)
+VALUES
+('BDA01', 'Basis Data', 3, 'RPL02'),
+('PWE02', 'Pemrograman Web', 4, 'RPL02'),
+('FTG03', 'Fotografi', 4, 'DKV03'),
+('DGR04', 'Desain Grafis', 5, 'DKV03');
+
+INSERT INTO nilai(id_nilai, nis, kode_mapel, nilai)
+VALUES
+('AAA21', 'YUT03', 'PWE02', 95),
+('AAA22', 'JIN06', 'DGR04', 80),
+('AAA23', 'DYL02', 'BDA01', 100),
+('AAA24', 'BAI05', 'FTG03', 75),
+('AAA25', 'ZAI04', 'DGR04', 98),
+('AAA26', 'LIN01', 'PWE02', 83);
+
+4.
+A. Menampilkan semua siswa yang berasal dari jurusan “Rekayasa Perangkat Lunak”. 
+=SELECT * FROM siswa WHERE kode_jurusan = 'RPL02';
+=SELECT * FROM 
+siswa AS S
+JOIN
+jurusan AS J
+ON
+S.kode_jurusan = J.kode_jurusan
+WHERE J.Nama_jurusan = 'Rekayasa Perangkat Lunak';
+
+B. Menampilkan semua mata pelajaran dengan jumlah jam lebih dari 4. 
+=SELECT Nama_mapel 
+FROM
+mata_pelajaran
+WHERE Jumlah_jam > 4;
+
+C. Menampilkan semua nilai siswa yang lebih besar dari 80. 
+=SELECT Nama_siswa, nilai
+FROM
+siswa AS S
+JOIN 
+nilai AS N
+ON
+S.nis = N.nis
+WHERE nilai > 80;
+
+5. 
+A. Menampilkan daftar siswa beserta nama jurusan mereka (JOIN siswa dengan jurusan). 
+= SELECT Nama_siswa, Nama_jurusan
+FROM
+siswa AS S
+JOIN
+jurusan AS J
+ON
+S.kode_jurusan = J.kode_jurusan;
+
+B.Menampilkan daftar nilai siswa (nama siswa, nama mapel, dan nilai). 
+= SELECT Nama_siswa, Nama_mapel, nilai
+FROM
+siswa AS S
+JOIN
+nilai AS N
+ON
+S.nis = N.nis
+JOIN
+mata_pelajaran AS M
+ON
+N.kode_mapel = M.kode_mapel;
+
+C. Menampilkan daftar guru dan mata pelajaran yang diajarkan.
+=SELECT Nama_guru, Mapel_diajar
+FROM
+guru;
